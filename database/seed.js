@@ -3,10 +3,13 @@ const bcrypt = require('../backend/node_modules/bcryptjs');
 const fs = require('fs');
 const path = require('path');
 
+// Load environment variables from backend folder
+require('../backend/node_modules/dotenv').config({ path: path.join(__dirname, '../backend/.env') });
+
 const dbConfig = {
-  host: 'localhost',
-  user: 'root',
-  password: '1234',
+  host: process.env.DB_HOST || 'localhost',
+  user: process.env.DB_USER || 'root',
+  password: process.env.DB_PASSWORD || '1234',
   multipleStatements: true
 };
 

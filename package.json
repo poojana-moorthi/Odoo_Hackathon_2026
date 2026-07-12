@@ -6,5 +6,10 @@
     "backend": "node backend/server.js",
     "frontend": "npm.cmd --prefix frontend run dev",
     "start": "start cmd /k \"node backend/server.js\" && start cmd /k \"npm.cmd --prefix frontend run dev\""
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.5.2",
+    "postcss": "^8.5.17",
+    "tailwindcss": "^3.4.19"
   }
 }

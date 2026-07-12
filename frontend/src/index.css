@@ -1,111 +1,515 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@300;400;500;600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Theme CSS variables */
 :root {
-  --text: #6b6375;
-  --text-h: #08060d;
-  --bg: #fff;
-  --border: #e5e4e7;
-  --code-bg: #f4f3ec;
-  --accent: #aa3bff;
-  --accent-bg: rgba(170, 59, 255, 0.1);
-  --accent-border: rgba(170, 59, 255, 0.5);
-  --social-bg: rgba(244, 243, 236, 0.5);
-  --shadow:
-    rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
+  --odoo-primary: #714B67;
+  --odoo-secondary: #00A09D;
+  --odoo-bg-gradient: linear-gradient(135deg, #F8FAFC, #F4F7FB, #EEF5FF, #FFFFFF);
+  --odoo-card-bg: rgba(255, 255, 255, 0.95);
+  --odoo-border: #E5E7EB;
+  --odoo-text-primary: #1F2937;
+  --odoo-text-secondary: #6B7280;
+}
 
-  --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --mono: ui-monospace, Consolas, monospace;
+/* ======================================================
+   DEFAULT DARK THEME STYLING RULES
+   ====================================================== */
+@layer base {
+  body {
+    @apply bg-[#0b0f19] text-slate-100 font-sans antialiased overflow-x-hidden relative min-h-screen;
+    font-family: 'Poppins', 'Inter', sans-serif !important;
+  }
 
-  font: 18px/145% var(--sans);
-  letter-spacing: 0.18px;
-  color-scheme: light dark;
-  color: var(--text);
-  background: var(--bg);
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-
-  @media (max-width: 1024px) {
-    font-size: 16px;
+  /* Deep dark-mode radial background glows */
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+      radial-gradient(circle at 12% 18%, rgba(113, 75, 103, 0.15) 0%, transparent 40%),
+      radial-gradient(circle at 88% 82%, rgba(0, 160, 157, 0.12) 0%, transparent 40%);
+    pointer-events: none;
+    z-index: -1;
   }
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --text: #9ca3af;
-    --text-h: #f3f4f6;
-    --bg: #16171d;
-    --border: #2e303a;
-    --code-bg: #1f2028;
-    --accent: #c084fc;
-    --accent-bg: rgba(192, 132, 252, 0.15);
-    --accent-border: rgba(192, 132, 252, 0.5);
-    --social-bg: rgba(47, 48, 58, 0.5);
-    --shadow:
-      rgba(0, 0, 0, 0.4) 0 10px 15px -3px, rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
+/* Custom Scrollbar (Default Dark Theme) */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-slate-950/40;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-slate-800 rounded-md hover:bg-slate-700;
+}
+
+/* Default Dark Glassmorphism */
+.glass-panel {
+  background-color: rgba(15, 23, 42, 0.4);
+  border: 1px solid rgba(30, 41, 59, 0.8);
+  backdrop-filter: blur(12px);
+}
+
+.glass-input {
+  background-color: rgba(2, 6, 23, 0.6);
+  border: 1px solid #1e293b;
+  color: #e2e8f0;
+  transition: all 0.2s ease-in-out;
+}
+
+/* ======================================================
+   LIGHT-THEME ACTIVE OVERRIDES (body.light-theme)
+   ====================================================== */
+body.light-theme {
+  background: var(--odoo-bg-gradient) !important;
+  color: var(--odoo-text-primary) !important;
+}
+
+body.light-theme::before {
+  background: 
+    radial-gradient(circle at 12% 18%, rgba(113, 75, 103, 0.04) 0%, transparent 40%),
+    radial-gradient(circle at 88% 82%, rgba(0, 160, 157, 0.03) 0%, transparent 40%) !important;
+}
+
+body.light-theme ::-webkit-scrollbar-track {
+  background-color: #f1f5f9;
+}
+
+body.light-theme ::-webkit-scrollbar-thumb {
+  background-color: #cbd5e1;
+  border-radius: 6px;
+}
+
+body.light-theme ::-webkit-scrollbar-thumb:hover {
+  background-color: #94a3b8;
+}
+
+body.light-theme .glass-panel {
+  background-color: rgba(255, 255, 255, 0.95);
+  border: 1px solid #e2e8f0;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+body.light-theme .glass-input {
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0;
+  color: #1e293b;
+  transition: all 0.2s ease-in-out;
+}
+
+/* Overwrite dark components to light components when light-theme is active */
+body.light-theme .bg-slate-900\/40, 
+body.light-theme .bg-slate-900\/60, 
+body.light-theme .bg-slate-900 {
+  background-color: rgba(255, 255, 255, 0.95) !important;
+}
+
+body.light-theme .border-slate-800\/80, 
+body.light-theme .border-slate-800\/60, 
+body.light-theme .border-slate-800, 
+body.light-theme .border-slate-900, 
+body.light-theme .border-slate-900\/60, 
+body.light-theme .border-slate-900\/40, 
+body.light-theme .border-slate-850 {
+  border-color: #E5E7EB !important;
+}
+
+body.light-theme .text-slate-100, 
+body.light-theme .text-slate-200, 
+body.light-theme .text-slate-300, 
+body.light-theme .text-slate-350, 
+body.light-theme .text-slate-250 {
+  color: #1F2937 !important;
+}
+
+body.light-theme .text-slate-400, 
+body.light-theme .text-slate-50, 
+body.light-theme .text-slate-600 {
+  color: #6B7280 !important;
+}
+
+body.light-theme .bg-slate-955, 
+body.light-theme .bg-slate-950 {
+  background-color: #F9FAFB !important;
+  color: #1F2937 !important;
+}
+
+body.light-theme .bg-slate-950\/60 {
+  background-color: #F9FAFB !important;
+}
+
+body.light-theme .bg-slate-950\/20, 
+body.light-theme .bg-slate-950\/10 {
+  background-color: #F3F4F6 !important;
+}
+
+body.light-theme .bg-slate-950\/80 {
+  background-color: rgba(249, 250, 251, 0.92) !important;
+}
+
+body.light-theme .bg-slate-900\/70 {
+  background-color: rgba(15, 23, 42, 0.3) !important;
+}
+
+body.light-theme .bg-slate-950\/40 {
+  background-color: #F3F4F6 !important;
+}
+
+body.light-theme .hover\:bg-slate-855:hover {
+  background-color: #F3F4F6 !important;
+}
+body.light-theme .hover\:bg-slate-850:hover {
+  background-color: #E5E7EB !important;
+}
+body.light-theme .hover\:border-slate-750:hover, 
+body.light-theme .hover\:border-slate-700:hover {
+  border-color: #D1D5DB !important;
+}
+
+body.light-theme .bg-slate-950\/30 {
+  background-color: #F3F4F6 !important;
+}
+
+/* Sidebar overrides for light-mode navigation */
+body.light-theme aside {
+  background-color: #ffffff !important;
+  border-color: #E5E7EB !important;
+  color: #4B5563 !important;
+}
+body.light-theme aside .border-b, 
+body.light-theme aside .border-t {
+  border-color: #E5E7EB !important;
+}
+body.light-theme aside .text-slate-800 {
+  color: #1F2937 !important;
+}
+body.light-theme aside a {
+  color: #4B5563 !important;
+}
+body.light-theme aside a:hover {
+  background-color: #F3F4F6 !important;
+  color: #714B67 !important;
+}
+body.light-theme aside .bg-slate-50\/50 {
+  background-color: #F9FAFB !important;
+}
+body.light-theme aside .bg-white {
+  background-color: #ffffff !important;
+  border-color: #E5E7EB !important;
+}
+body.light-theme aside .text-slate-700 {
+  color: #4B5563 !important;
+}
+body.light-theme aside .text-slate-800 {
+  color: #1F2937 !important;
+}
+
+/* Header overrides for light-mode shell navbar */
+body.light-theme header {
+  background-color: rgba(255, 255, 255, 0.8) !important;
+  border-color: #E5E7EB !important;
+}
+body.light-theme header nav, 
+body.light-theme header a {
+  color: #6B7280 !important;
+}
+body.light-theme header .text-slate-800 {
+  color: #1F2937 !important;
+}
+body.light-theme header input {
+  background-color: #F9FAFB !important;
+  border-color: #E5E7EB !important;
+  color: #1F2937 !important;
+}
+body.light-theme header input:hover {
+  border-color: #D1D5DB !important;
+}
+body.light-theme header .bg-slate-100 {
+  background-color: #F3F4F6 !important;
+}
+body.light-theme header .absolute.right-0 {
+  background-color: #ffffff !important;
+  border-color: #E5E7EB !important;
+  color: #1F2937 !important;
+}
+body.light-theme header .border-b, 
+body.light-theme header .border-t {
+  border-color: #E5E7EB !important;
+}
+body.light-theme header .divide-y > * {
+  border-color: #E5E7EB !important;
+}
+body.light-theme header .bg-slate-50 {
+  background-color: #F9FAFB !important;
+}
+body.light-theme header .hover\:bg-slate-50:hover {
+  background-color: #F3F4F6 !important;
+}
+body.light-theme header .border-l {
+  border-color: #E5E7EB !important;
+}
+
+/* Modal overrides for light-mode headers */
+body.light-theme .fixed .max-w-xl {
+  background-color: #ffffff !important;
+  border-color: #E5E7EB !important;
+}
+body.light-theme .fixed .bg-slate-50 {
+  background-color: #F9FAFB !important;
+}
+body.light-theme .fixed .border-b {
+  border-color: #E5E7EB !important;
+}
+body.light-theme .fixed .hover\:bg-slate-100:hover {
+  background-color: #F3F4F6 !important;
+}
+
+/* General button styling helpers in dark mode (restoring default buttons) */
+.btn-dark-accent {
+  @apply bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700;
+}
+
+/* ======================================================
+   LIGHT-MODE ERP LOGIN PAGE OVERRIDES
+   ====================================================== */
+.login-page-container {
+  background: var(--odoo-bg-gradient) !important;
+  color: var(--odoo-text-primary) !important;
+}
+
+.login-glass-card {
+  background: var(--odoo-card-bg) !important;
+  border: 1px solid var(--odoo-border) !important;
+}
+
+.login-glass-card:hover {
+  box-shadow: 0 15px 35px rgba(113, 75, 103, 0.08) !important;
+}
+
+.btn-odoo-gradient {
+  background: linear-gradient(90deg, #714B67, #8C5D82, #00A09D) !important;
+}
+
+.btn-odoo-gradient:hover {
+  box-shadow: 0 8px 20px rgba(0, 160, 157, 0.25) !important;
+}
+
+/* Animations */
+@keyframes float-slow {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-15px) rotate(15deg); }
+}
+
+@keyframes float-medium {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-20px) rotate(-10deg); }
+}
+
+.floating-shape-1 {
+  animation: float-slow 8s ease-in-out infinite;
+}
+
+.floating-shape-2 {
+  animation: float-medium 10s ease-in-out infinite;
+}
+
+.feature-badge-item {
+  background: rgba(113, 75, 103, 0.06);
+  border: 1px solid rgba(113, 75, 103, 0.1);
+  color: var(--odoo-primary);
+}
+
+.feature-badge-item:hover {
+  background: rgba(0, 160, 157, 0.08);
+  border-color: rgba(0, 160, 157, 0.15);
+  color: var(--odoo-secondary);
+}
+
+/* Print/PDF Page Breaks */
+@media print {
+  body {
+    background: white !important;
+    color: black !important;
   }
-
-  #social .button-icon {
-    filter: invert(1) brightness(2);
-  }
 }
 
-body {
-  margin: 0;
+/* ======================================================
+   DARK MODE OVERRIDES (default when body has no .light-theme)
+   ====================================================== */
+body:not(.light-theme) {
+  background-color: #0b0f19 !important;
+  color: #f1f5f9 !important;
 }
 
-#root {
-  width: 1126px;
-  max-width: 100%;
-  margin: 0 auto;
-  text-align: center;
-  border-inline: 1px solid var(--border);
-  min-height: 100svh;
-  display: flex;
-  flex-direction: column;
-  box-sizing: border-box;
+body:not(.light-theme) header {
+  background-color: rgba(15, 23, 42, 0.8) !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
 }
 
-h1,
-h2 {
-  font-family: var(--heading);
-  font-weight: 500;
-  color: var(--text-h);
+body:not(.light-theme) header nav,
+body:not(.light-theme) header a {
+  color: #cbd5e1 !important;
 }
 
-h1 {
-  font-size: 56px;
-  letter-spacing: -1.68px;
-  margin: 32px 0;
-  @media (max-width: 1024px) {
-    font-size: 36px;
-    margin: 20px 0;
-  }
-}
-h2 {
-  font-size: 24px;
-  line-height: 118%;
-  letter-spacing: -0.24px;
-  margin: 0 0 8px;
-  @media (max-width: 1024px) {
-    font-size: 20px;
-  }
-}
-p {
-  margin: 0;
+body:not(.light-theme) aside {
+  background-color: rgba(15, 23, 42, 0.95) !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
+  color: #cbd5e1 !important;
 }
 
-code,
-.counter {
-  font-family: var(--mono);
-  display: inline-flex;
-  border-radius: 4px;
-  color: var(--text-h);
+body:not(.light-theme) aside .border-b,
+body:not(.light-theme) aside .border-t,
+body:not(.light-theme) aside .border-slate-200,
+body:not(.light-theme) aside .border-slate-200\/60 {
+  border-color: rgba(255, 255, 255, 0.08) !important;
 }
 
-code {
-  font-size: 15px;
-  line-height: 135%;
-  padding: 4px 8px;
-  background: var(--code-bg);
+body:not(.light-theme) aside .text-slate-800 {
+  color: #ffffff !important;
 }
+
+body:not(.light-theme) aside a {
+  color: #cbd5e1 !important;
+}
+
+body:not(.light-theme) aside a:hover {
+  background-color: rgba(255, 255, 255, 0.08) !important;
+  color: #ffffff !important;
+}
+
+body:not(.light-theme) aside .bg-slate-50\/50,
+body:not(.light-theme) aside .bg-slate-100 {
+  background-color: #020617 !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
+  color: #cbd5e1 !important;
+}
+
+body:not(.light-theme) aside .bg-white {
+  background-color: rgba(15, 23, 42, 0.6) !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+/* Login Page overrides in dark mode */
+body:not(.light-theme) .login-page-container {
+  background: #0b0f19 !important;
+  color: #f1f5f9 !important;
+}
+
+body:not(.light-theme) .login-page-container .bg-light {
+  background-color: rgba(15, 23, 42, 0.4) !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+body:not(.light-theme) .login-glass-card {
+  background-color: rgba(15, 23, 42, 0.6) !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
+  color: #e2e8f0 !important;
+}
+
+body:not(.light-theme) .login-page-container .bg-white {
+  background-color: #020617 !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
+  color: #94a3b8 !important;
+}
+
+body:not(.light-theme) .login-page-container input,
+body:not(.light-theme) .login-page-container select {
+  background-color: #020617 !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
+  color: #e2e8f0 !important;
+}
+
+body:not(.light-theme) .login-page-container input::placeholder {
+  color: #64748b !important;
+}
+
+body:not(.light-theme) .login-page-container .login-text-primary {
+  color: #ffffff !important;
+}
+
+body:not(.light-theme) .login-page-container .login-text-secondary {
+  color: #cbd5e1 !important;
+}
+
+body:not(.light-theme) .login-page-container .form-check-input {
+  background-color: #020617 !important;
+  border-color: rgba(255, 255, 255, 0.15) !important;
+}
+
+body:not(.light-theme) .login-page-container .form-check-input:checked {
+  background-color: #00A09D !important;
+  border-color: #00A09D !important;
+}
+
+/* General Input and Dropdown Overrides in Dark Mode */
+body:not(.light-theme) input,
+body:not(.light-theme) select,
+body:not(.light-theme) textarea,
+body:not(.light-theme) .input-group-text {
+  background-color: #020617 !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
+  color: #e2e8f0 !important;
+}
+
+body:not(.light-theme) input:focus,
+body:not(.light-theme) select:focus,
+body:not(.light-theme) textarea:focus {
+  border-color: #00A09D !important;
+}
+
+body:not(.light-theme) .bg-slate-50,
+body:not(.light-theme) .bg-slate-100,
+body:not(.light-theme) .bg-slate-200,
+body:not(.light-theme) .bg-slate-300 {
+  background-color: #020617 !important;
+  color: #cbd5e1 !important;
+}
+
+body:not(.light-theme) .text-slate-800,
+body:not(.light-theme) .text-slate-700,
+body:not(.light-theme) .text-slate-900 {
+  color: #f8fafc !important;
+}
+
+body:not(.light-theme) .text-slate-600,
+body:not(.light-theme) .text-slate-500 {
+  color: #94a3b8 !important;
+}
+
+body:not(.light-theme) .hover\:bg-slate-100:hover,
+body:not(.light-theme) .hover\:bg-slate-50:hover {
+  background-color: rgba(255, 255, 255, 0.08) !important;
+  color: #ffffff !important;
+}
+
+body:not(.light-theme) .border-slate-200,
+body:not(.light-theme) .border-slate-200\/60,
+body:not(.light-theme) .border-slate-200\/80,
+body:not(.light-theme) .border-slate-300 {
+  border-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+/* Modals and Slide drawers in dark mode */
+body:not(.light-theme) .fixed .max-w-xl,
+body:not(.light-theme) .fixed .bg-white {
+  background-color: #0f172a !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
+  color: #e2e8f0 !important;
+}
+
+body:not(.light-theme) .fixed .bg-slate-50 {
+  background-color: #020617 !important;
+}
+
