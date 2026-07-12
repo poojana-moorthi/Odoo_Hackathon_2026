@@ -1,29 +1,24 @@
-const path = require('path');
-const dotenv = require('dotenv');
 const mysql = require('mysql2/promise');
-
-dotenv.config({ path: path.resolve(__dirname, '..', '.env') });
+require('dotenv').config();
 
 const pool = mysql.createPool({
-  host: process.env.DB_HOST,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASS,
-  database: process.env.DB_NAME,
-  port: process.env.DB_PORT,
+  host: process.env.DB_HOST || 'localhost',
+  user: process.env.DB_USER || 'root',
+  password: process.env.DB_PASSWORD || '1234',
+  database: process.env.DB_NAME || 'transitops_db',
+  waitForConnections: true,
   connectionLimit: 10,
-  queueLimit: 0,
-  enableKeepAlive: true
+  queueLimit: 0
 });
 
-const db = pool;
-
-pool.query('SELECT 1')
-  .then(() => {
-    console.log('Database connection successful');
+// Test database connectivity
+pool.getConnection()
+  .then(conn => {
+    console.log('Connected to MySQL Database Pool successfully.');
+    conn.release();
   })
-  .catch((error) => {
-    console.error('Database connection test failed:', error);
+  .catch(err => {
+    console.error('Database connection failed:', err);
   });
 
-module.exports = db;
-module.exports.default = db;
+module.exports = pool;
