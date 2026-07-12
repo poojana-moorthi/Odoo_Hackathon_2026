@@ -3,7 +3,7 @@ import axios from 'axios';
 
 const AuthContext = createContext(null);
 
-export const API_URL = 'http://localhost:5000/api';
+export const API_URL = 'http://127.0.0.1:5000/api';
 
 // Create a custom axios instance
 export const api = axios.create({
