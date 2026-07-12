@@ -1,0 +1,10 @@
+{
+  "name": "transitops",
+  "version": "1.0.0",
+  "description": "Root workspace orchestrator for TransitOps Platform",
+  "scripts": {
+    "backend": "node backend/server.js",
+    "frontend": "npm.cmd --prefix frontend run dev",
+    "start": "start cmd /k \"node backend/server.js\" && start cmd /k \"npm.cmd --prefix frontend run dev\""
+  }
+}
